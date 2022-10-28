@@ -1,4 +1,4 @@
-# -#- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 import ipaddress
 from enum import IntEnum
 import socket
