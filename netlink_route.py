@@ -1,4 +1,4 @@
-# This is a sample Python script.
+# -#- coding: utf-8 -*-
 import ipaddress
 from enum import IntEnum
 import socket
