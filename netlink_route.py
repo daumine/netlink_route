@@ -128,8 +128,6 @@ class NLMSG:
             return
 
         if self.nlmsghdr.nlmsg_type == NLMSG_TYPE.ERROR:
-
-            print("NLMSG Error")
             return
 
         if self.nlmsghdr.nlmsg_type == RTM.NEWLINK or self.nlmsghdr.nlmsg_type == RTM.DELLINK:
@@ -149,8 +147,7 @@ class NLMSG:
             self.do_nlmsg_type_ipv4_addr()
 
     def do_nlmsg_type_link(self):
-        data = self.data[self.data_pos:self.data_pos+16]
-        family, if_type, index, flags, change = struct.unpack("=BxHiII", data)
+        family, if_type, index, flags, change = struct.unpack("=BxHiII", self.data[self.data_pos:self.data_pos+16])
         self.data_pos += 16
 
         if flags & IFF.UP:
@@ -162,8 +159,6 @@ class NLMSG:
             print("Device is running")
         else:
             print("Device is not running")
-
-        print(f"family {family}, if_type {if_type}, index {index}, flags {flags}, change {change}")
 
         while self.data_pos < self.nlmsghdr.nlmsg_len:
             rta_len, rta_type = struct.unpack("=HH", self.data[self.data_pos:self.data_pos+4])
@@ -197,8 +192,6 @@ class NLMSG:
     def do_nlmsg_type_ipv4_addr(self):
         family, prefixlen, flags, scope, index = struct.unpack("=BBBBI", self.data[self.data_pos:self.data_pos+8])
         self.data_pos += 8
-
-        print(f"family {family}, prefixlen {prefixlen}, flags {flags}, scope {scope}, index {index}")
 
         while self.data_pos < self.nlmsghdr.nlmsg_len:
             rta_len, rta_type = struct.unpack("=HH", self.data[self.data_pos:self.data_pos + 4])
