@@ -119,7 +119,7 @@ class NLMSG:
 
         return f"NLMSG_{str(nlmsghdr.nlmsg_type)}"
 
-    def process(self):
+    def read(self):
         self.nlmsghdr = NLMSGHDR(self.data[:NLMSG_HDRLEN])
         self.data_pos += NLMSG_HDRLEN
         print(NLMSG.nlmsg_type(self.nlmsghdr))
@@ -235,7 +235,7 @@ def main():
         s.bind((os.getpid(), RTMGRP.LINK | RTMGRP.IPV4_IFADDR | RTMGRP.IPV6_IFADDR))
 
         while True:
-            NLMSG(s.recv(65535)).process()
+            NLMSG(s.recv(65535)).read()
 
 
 if __name__ == '__main__':
